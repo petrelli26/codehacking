@@ -11,16 +11,21 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/', 'HomeController@index');
 
-Route::get('/admin', function() {
-    return view('admin.index');
+Route::get('/admin', 'HomeController@admin');
+
+//Route::get('admin', function() {
+//    return view('admin.index');
+//});
+
+Route::group(['middleware' => 'admin'], function() {
+    Route::resource('admin/users', 'AdminUsersController');
+    Route::resource('admin/posts', 'AdminPostsController');
 });
-
-Route::resource('admin/users', 'AdminUsersController');
